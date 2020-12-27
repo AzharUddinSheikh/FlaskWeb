@@ -20,12 +20,12 @@ posts = [
 
 @app.route('/')
 def home():
-    return "<h1>Home</h1>"
+    return render_template('home.html', posts=posts)
 
 
 @app.route('/about')
 def about():
-    return render_template('about.html', posts=posts)
+    return render_template('about.html', title='Azhar')
     # our posts which is above list variable and which gone into templates
 
 
