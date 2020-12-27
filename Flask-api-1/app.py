@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for
-
+from form import RegistrationForm, LoginForm
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'azharslk33782jso2od'
 
 posts = [
     {
@@ -27,6 +29,18 @@ def home():
 def about():
     return render_template('about.html', title='Azhar')
     # our posts which is above list variable and which gone into templates
+
+
+@app.route('/register')
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/login')
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
 
 
 if __name__ == "__main__":
