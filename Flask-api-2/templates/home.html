@@ -1,7 +1,11 @@
 <html lang="en">
 
 <head>
-    <title>Document</title>
+    {% if title %}
+    <title>Flask {{title}}</title>
+    {% else %}
+    <title>Flask Blog</title>
+    {% endif %}
 </head>
 
 <body>
