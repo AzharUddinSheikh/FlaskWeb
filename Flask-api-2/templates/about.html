@@ -1,15 +1,4 @@
-<html lang="en">
-
-<head>
-    {% if title %}
-    <title>Flask {{title}}</title>
-    {% else %}
-    <title>Flask Blog</title>
-    {% endif %}
-</head>
-
-<body>
-    <h1>About</h1>
-</body>
-
-</html>
+{% extends "layout.html" %}
+{% block content %}
+<h1>About</h1>
+{% endblock content %}
