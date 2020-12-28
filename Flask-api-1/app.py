@@ -1,45 +1,36 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, redirect
 from form import RegistrationForm, LoginForm
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'azharslk33782jso2od'
-
-posts = [
-    {
-        'author': 'robin',
-        'title': 'blog post1',
-        'content': 'first post content',
-        'date': 'april 20 2019'
-    },
-    {
-        'author': 'jack kallis',
-        'title': 'blog sample',
-        'content': 'second content',
-        'date': 'march 20 2009'
-    }
-]
+app.config['SECRET_KEY'] = 'aazhar'
 
 
 @app.route('/')
 def home():
-    return render_template('home.html', posts=posts)
+    return render_template('home.html')
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title='Azhar')
-    # our posts which is above list variable and which gone into templates
-
-
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Accout Created for {form.username.data}!', 'success')
+
+        return redirect(url_for('home'))
+
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in', 'success')
+            return redirect(url_for('home'))
+
+        else:
+            flash('Login Unsuccessfull please check uername and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 
