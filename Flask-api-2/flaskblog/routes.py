@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
-from flaskblog.form import RegistrationForm, LoginForm
+from flaskblog.form import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskblog.models import User, Posts
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -42,7 +42,7 @@ def register():
         db.session.commit()
 
         flash('Your Account Has Been Created Now you are able to login', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     return render_template('/register.html', title='Register', form=form)
 
 
@@ -73,9 +73,22 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET','POST'])
 @login_required
 def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your Account Has Been Updated','success')
+        return redirect(url_for('account'))
+
+    # if you want to show current data without req post method  in the input field of account then
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
     imagefile = url_for('static',filename='img/'+current_user.image_file)
     #image_file is the column name in User table check out models with the help of current user we can access to exact location if we dont then sql ll rise error
-    return render_template('account.html',title='Account', imagefile=imagefile)
+    return render_template('account.html',title='Account', imagefile=imagefile, form=form)
