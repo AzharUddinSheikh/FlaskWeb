@@ -1,4 +1,5 @@
 import os
+# import PIL
 import secrets
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
@@ -83,6 +84,13 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext
     path = 'C:/Users/azhar/Desktop/Flask-Rest and Api/Flask-api-2/flaskblog'
     picture_path = os.path.join(path,'static/img',picture_fn)
+
+#  to resize our images to save in static so that our web page work faster with saving tons of space
+    # output_size = (125,125)
+    # i = Image.open(form_picture)
+    # i.thumbnail(output_size)
+    # i.save(picture_path)
+
     form_picture.save(picture_path)
     return picture_fn
 
