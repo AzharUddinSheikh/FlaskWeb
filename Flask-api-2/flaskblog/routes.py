@@ -76,4 +76,6 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-    return render_template('account.html',title='Account')
+    imagefile = url_for('static',filename='img/'+current_user.image_file)
+    #image_file is the column name in User table check out models with the help of current user we can access to exact location if we dont then sql ll rise error
+    return render_template('account.html',title='Account', imagefile=imagefile)
