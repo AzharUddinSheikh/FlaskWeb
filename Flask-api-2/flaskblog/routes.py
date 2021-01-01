@@ -1,3 +1,5 @@
+import os
+import secrets
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.form import RegistrationForm, LoginForm, UpdateAccountForm
@@ -73,11 +75,28 @@ def logout():
     return redirect(url_for('home'))
 
 
+# we just saved our picture to our path here (why random_hex if user enter same image name it ll cause problem)
+# _ means not using it 
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    path = 'C:/Users/azhar/Desktop/Flask-Rest and Api/Flask-api-2/flaskblog'
+    picture_path = os.path.join(path,'static/img',picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+
 @app.route('/account', methods=['GET','POST'])
 @login_required
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+
+# updating picture username and email if post
+        if form.picture.data:
+            picture_file  = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
