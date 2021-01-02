@@ -3,7 +3,7 @@ import os
 import secrets
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
-from flaskblog.form import RegistrationForm, LoginForm, UpdateAccountForm
+from flaskblog.form import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskblog.models import User, Posts
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -119,3 +119,13 @@ def account():
     imagefile = url_for('static',filename='img/'+current_user.image_file)
     #image_file is the column name in User table check out models with the help of current user we can access to exact location if we dont then sql ll rise error
     return render_template('account.html',title='Account', imagefile=imagefile, form=form)
+
+
+@app.route('/post/new',methods=['GET','POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Your Post Has Been Created','success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html',title='New Post',form=form)
