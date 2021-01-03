@@ -10,8 +10,10 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/')
 def home():
+    #  taking page query argument 1 is default type is integer or error throw
     page = request.args.get('page',1,type=int)
-    posts = Posts.query.paginate(page=page,per_page=3)
+    posts = Posts.query.paginate(page=page,per_page=2)
+    #  per page only 2 post and page is an arg of posts
     return render_template('home.html', posts=posts)
 
 
