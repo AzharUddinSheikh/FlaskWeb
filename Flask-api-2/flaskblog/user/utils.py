@@ -1,9 +1,9 @@
 import os 
 import secrets
 from PIL import Image
-from flask import url_for
+from flask import url_for, current_app
 from flask_mail import Message
-from flaskblog import app, mail
+from flaskblog import mail
 
 # we just saved our picture to our path here (why random_hex if user enter same image name it ll cause problem)
 # _ means not using it 
