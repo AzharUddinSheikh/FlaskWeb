@@ -7,7 +7,7 @@ from flaskblog.models import User
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('username', validators=[
+    username = StringField('Username', validators=[
                            DataRequired(), Length(min=3, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -59,3 +59,20 @@ class PostForm(FlaskForm):
     title = StringField('Title',validators=[DataRequired()])
     content = TextAreaField('Content',validators=[DataRequired()])
     submit = SubmitField('Post')
+
+
+class RequestForm(FlaskForm):
+    email = StringField('Email',validators=[DataRequired(),Email(allow_smtputf8=True)])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self,email):
+        email = User.query.filter_by(email = email.data).first()
+        if email is None:
+            raise ValidationError('There is no account with this email you must register first')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[
+                                     DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
