@@ -2,3 +2,7 @@ Flask-api-1/__pycache__/
 Flask-api-2/__pycache__/
 Flask-api-2/flaskblog/__pycache__/
 Flask-api-2/flaskblog/site.db
+Flask-api-2/flaskblog/main/__pycache__/
+Flask-api-2/flaskblog/post/__pycache__/
+Flask-api-2/flaskblog/user/__pycache__/
+Flask-api-2/flaskblog/static/img/
